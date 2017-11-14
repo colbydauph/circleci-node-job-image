@@ -5,7 +5,7 @@ Docker Image: [`colbydauph/circleci-node-job-image`](https://hub.docker.com/r/co
 ```
 os      - ubuntu
 util    - curl, git, unzip, vim, zip
-cloud   - aws, docker
+cloud   - aws, docker, docker-compose
 js      - node, npm, n, yarn
 ```
 
@@ -14,6 +14,7 @@ js      - node, npm, n, yarn
 ```shell
 $ docker build \
   -t <user-name>/<image-name>:<version> \
+  --build-arg DOCKER_COMPOSE_VERSION=1.17.0 \
   --build-arg NODE_VERSION=latest \
   --build-arg UBUNTU_VERSION=latest \
   .;
