@@ -1,14 +1,14 @@
-FROM ubuntu:latest
+ARG UBUNTU_VERSION=latest
+ARG NODE_VERSION=latest
+
+FROM ubuntu:${UBUNTU_VERSION}
 
 LABEL maintainer="colby@dauphina.is"
-
-ARG NODE_VERSION=latest
 
 # install linux packages
 RUN apt-get update -yq && \
   apt-get install -yq \
     apt-transport-https \
-    awscli \
     curl \
     software-properties-common \
     sudo \
@@ -50,7 +50,7 @@ RUN git init
 # install aws cli
 RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
     unzip -q awscli-bundle.zip && \
-    ./awscli-bundle/install -b ~/bin/aws && \
+    sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
     rm -R awscli-bundle.zip ./awscli-bundle;
 
 CMD ["/bin/bash"] 

@@ -15,6 +15,7 @@ js      - node, npm, n, yarn
 $ docker build \
   -t <user-name>/<image-name>:<version> \
   --build-arg NODE_VERSION=latest \
+  --build-arg UBUNTU_VERSION=latest \
   .;
 ```
 
