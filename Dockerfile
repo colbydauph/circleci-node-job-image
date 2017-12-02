@@ -54,4 +54,9 @@ RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.
     sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
     rm -R awscli-bundle.zip ./awscli-bundle;
 
+# install ecs-deploy
+RUN git clone https://github.com/silinternational/ecs-deploy.git && \
+    cp ecs-deploy/ecs-deploy /usr/bin/ecs-deploy && \
+    rm -rf ecs-deploy;
+
 CMD ["/bin/bash"] 
