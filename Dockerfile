@@ -11,6 +11,7 @@ RUN apt-get update -yq && \
   apt-get install -yq \
     apt-transport-https \
     curl \
+    jq \
     software-properties-common \
     sudo \
     unzip \
