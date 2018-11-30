@@ -3,7 +3,7 @@ A Docker image ([`Dockerfile`](https://docs.docker.com/engine/reference/builder/
 
 Pre-built images are available for each [release](https://github.com/colbydauph/circleci-node-job-image/releases) on [Docker Hub](https://hub.docker.com/r/colbydauph/circleci-node-job-image/tags). e.g.
 ```shell
-$ docker run -ti --rm colbydauph/circleci-node-job-image:0.3.1
+$ docker run -ti --rm colbydauph/circleci-node-job-image:0.4.0
 ```
 *Note. Pre-built images use `--build-arg` defaults.*
 
@@ -17,7 +17,7 @@ os      - ubuntu
 util    - curl, git, jq, unzip, vim, zip
 docker  - docker, docker-compose
 aws     - aws, ecs-deploy
-js      - node, npm, n, yarn
+js      - node, npm, npx, n, yarn
 ```
 
 #### Configuring CircleCI
