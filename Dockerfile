@@ -1,6 +1,7 @@
 ARG UBUNTU_VERSION=latest
 FROM ubuntu:${UBUNTU_VERSION}
 
+ARG GITHUB_ACCESS_TOKEN
 ARG NODE_VERSION=latest
 ARG DOCKER_COMPOSE_VERSION=1.17.0
 
@@ -26,6 +27,10 @@ RUN apt-get update -yq && \
     tar \
   && rm -rf /var/lib/apt/lists/*;
 
+# add token for github private repos
+# https://github.com/npm/npm/issues/5257
+RUN git config --global url."https://${GITHUB_ACCESS_TOKEN}:x-oauth-basic@github.com/".insteadOf "ssh://git@github.com/"
+
 # install docker && docker-compose
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - && \
   sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" && \
@@ -46,8 +51,11 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
     yarn global add npm
 
 # install n (node version manager)
-RUN npm install -g n && \
+RUN npm i -g n && \
     n ${NODE_VERSION} -q
+    
+# install funk-cli
+RUN npm i -g colbydauph/funk-cli#0.3.0
 
 # install aws cli
 RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
