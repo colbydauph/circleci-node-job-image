@@ -52,7 +52,8 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
 
 # install n (node version manager)
 RUN npm i -g n && \
-    n ${NODE_VERSION} -q
+    n ${NODE_VERSION} -q && \
+    yarn global add npm
     
 # install funk-cli
 RUN npm i -g colbydauph/funk-cli#0.3.0
