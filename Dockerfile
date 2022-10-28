@@ -5,6 +5,8 @@ ARG GITHUB_ACCESS_TOKEN
 ARG NODE_VERSION=latest
 ARG DOCKER_COMPOSE_VERSION=1.17.0
 
+ENV NVM_DIR /usr/local/nvm
+
 LABEL maintainer="colby@dauphina.is"
 
 # install linux packages
@@ -45,8 +47,8 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && \
     apt-get update -yq && \
     apt-get install -yq yarn
 
-# install node 8 + npm
-RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
+# install node 16 + npm
+RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash - && \
     apt-get install -yq nodejs build-essential && \
     yarn global add npm
 
@@ -55,14 +57,28 @@ RUN npm i -g n && \
     n ${NODE_VERSION} -q && \
     yarn global add npm
     
+# install nvm
+# https://github.com/creationix/nvm#install-script
+RUN mkdir -p $NVM_DIR
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.39.1/install.sh | bash
+RUN . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+
 # install funk-cli
-RUN npm i -g colbydauph/funk-cli#0.3.0
+RUN npm i -g colbydauph/funk-cli#0.5.0
 
 # install aws cli
-RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
-    unzip -q awscli-bundle.zip && \
-    sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
-    rm -R awscli-bundle.zip ./awscli-bundle;
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    sudo ./aws/install
+
+# RUN curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
+#     unzip -q awscli-bundle.zip && \
+#     sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
+#     rm -R awscli-bundle.zip ./awscli-bundle;
 
 # install ecs-deploy
 RUN git clone https://github.com/silinternational/ecs-deploy.git && \

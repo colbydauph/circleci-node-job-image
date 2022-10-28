@@ -3,7 +3,7 @@ A Docker image ([`Dockerfile`](https://docs.docker.com/engine/reference/builder/
 
 Pre-built images are available for each [release](https://github.com/colbydauph/circleci-node-job-image/releases) on [Docker Hub](https://hub.docker.com/r/colbydauph/circleci-node-job-image/tags). e.g.
 ```shell
-$ docker run -ti --rm colbydauph/circleci-node-job-image:0.5.0
+$ docker run -ti --rm colbydauph/circleci-node-job-image:0.6.0
 ```
 *Note. Pre-built images use `--build-arg` defaults.*
 
@@ -33,11 +33,17 @@ jobs:
 
 #### Building an Image
 ```shell
-$ docker build \
-  -t <user-name>/<image-name>:<version> \
+export USERNAME=colbydauph
+export IMAGE_NAME=circleci-node-job-image
+export IMAGE_TAG=latest
+
+export GITHUB_ACCESS_TOKEN=""
+
+docker build \
+  -t "$USERNAME/$IMAGE_NAME:$IMAGE_TAG" \
   --build-arg GITHUB_ACCESS_TOKEN \
   --build-arg DOCKER_COMPOSE_VERSION=1.17.0 \
-  --build-arg NODE_VERSION=latest \
+  --build-arg NODE_VERSION=16.18 \
   --build-arg UBUNTU_VERSION=latest \
   .;
 ```
